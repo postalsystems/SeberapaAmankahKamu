@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seberapa Amankah Kamu?</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+    body { background:linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d); color:#333; min-height:100vh; padding:20px; }
+    .container { max-width:800px; margin:0 auto; background-color:rgba(255,255,255,0.95); border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow:hidden; }
+    header { background:linear-gradient(to right,#2c3e50,#4a6491); color:white; padding:25px; text-align:center; }
+    h1 { font-size:2.2rem; margin-bottom:10px; }
+    .subtitle { font-size:1.1rem; opacity:0.9; }
+    .game-container { padding:25px; }
+    .question-container { margin-bottom:30px; display:none; }
+    .question-container.active { display:block; animation:fadeIn 0.5s ease; }
+    .question-text { font-size:1.3rem; margin-bottom:20px; color:#2c3e50; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:15px; }
+    .option { background:#f8f9fa; border:2px solid #e9ecef; border-radius:10px; padding:15px; cursor:pointer; transition:all 0.3s ease; }
+    .option:hover { background:#e9ecef; transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    .option.selected { background:#4a6491; color:white; border-color:#2c3e50; }
+    .navigation { display:flex; justify-content:space-between; margin-top:30px; }
+    button { padding:12px 25px; border:none; border-radius:8px; background:linear-gradient(to right,#2c3e50,#4a6491); color:white; font-size:1rem; cursor:pointer; transition:all 0.3s ease; }
+    button:hover { transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+    button:disabled { background:#bdc3c7; cursor:not-allowed; }
+    .result-container { display:none; padding:25px; text-align:center; }
+    .result-title { font-size:2rem; margin-bottom:20px; color:#2c3e50; }
+    .personality-result { font-size:1.8rem; font-weight:bold; margin:20px 0; padding:15px; border-radius:10px; background:linear-gradient(to right,#b21f1f,#fdbb2d); color:white; }
+    .percentage-bars { margin:30px 0; }
+    .percentage-bar { margin-bottom:15px; text-align:left; }
+    .bar-label { display:flex; justify-content:space-between; margin-bottom:5px; }
+    .bar-container { height:25px; background:#e9ecef; border-radius:12px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:12px; transition:width 1s ease; }
+    .personality-desc { background:#f8f9fa; padding:20px; border-radius:10px; margin-top:20px; text-align:left; line-height:1.6; }
+    .actions { margin-top:30px; }
+    .restart-btn { background:linear-gradient(to right,#27ae60,#2ecc71); }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+    .progress-container { margin:20px 0; }
+    .progress-bar { height:10px; background:#e9ecef; border-radius:5px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(to right,#2c3e50,#4a6491); width:0%; transition:width 0.5s ease; }
+    .progress-text { text-align:center; margin-top:5px; font-size:0.9rem; color:#6c757d; }
+    .disclaimer { margin-top:30px; font-size:0.8rem; color:#6c757d; text-align:center; padding:10px; background:#f8f9fa; border-radius:5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Seberapa Amankah Kamu?</h1>
+      <p class="subtitle">Melalui tes ini kamu akan mengetahui nasib keamanan kamu selama berkespresi di media sosial!</p>
+    </header>
+    <div class="game-container">
+      <div class="progress-container">
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-text" id="progress-text">Pertanyaan 1 dari 5</div>
+      </div>
