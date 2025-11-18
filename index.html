@@ -6,7 +6,7 @@
   <title>Seberapa Amankah Kamu?</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
-    body { background:linear-gradient(135deg,#1a2a6c,#b21f1f,#fdbb2d); color:#333; min-height:100vh; padding:20px; }
+    body { background:#ffffff; color:#333; min-height:100vh; padding:20px; }
     .container { max-width:800px; margin:0 auto; background-color:rgba(255,255,255,0.95); border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3); overflow:hidden; }
     header { background:linear-gradient(to right,#2c3e50,#4a6491); color:white; padding:25px; text-align:center; }
     h1 { font-size:2.2rem; margin-bottom:10px; }
@@ -238,7 +238,7 @@
         });
 
         personalityResult.textContent = personalities[dominant].name;
-        personalityResult.style.background = `linear-gradient(to right, ${personalities[dominant].color}, #fdbb2d)`;
+        personalityResult.style.background = `linear-gradient(to right, ${personalities[dominant].color},#E44A99)`;
         personalityDesc.textContent = descriptions[dominant];
         resultContainer.style.display = 'block';
       }
@@ -289,4 +289,5 @@
   </script>
 </body>
 </html>
+
 
