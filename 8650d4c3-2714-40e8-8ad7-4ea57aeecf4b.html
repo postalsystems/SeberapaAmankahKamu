@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.8.1.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { background: transparent }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;id&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Ujian Kebebasan Berekspresi&lt;/title&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .game-container {
+            padding: 25px;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option.selected {
+            background-color: #4a6491;
+            color: white;
+            border-color: #2c3e50;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-container {
+            display: none;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .personality-result {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #b21f1f, #fdbb2d);
+            color: white;
+        }
+        
+        .percentage-bars {
+            margin: 30px 0;
+        }
+        
+        .percentage-bar {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .bar-container {
+            height: 25px;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 1s ease;
+        }
+        
+        .personality-desc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            line-height: 1.6;
+        }
+        
+        .actions {
+            margin-top: 30px;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .disclaimer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;header&gt;
+            &lt;h1&gt;Ujian Kebebasan Berekspresi&lt;/h1&gt;
+            &lt;p class=&quot;subtitle&quot;&gt;Simulasi konsekuensi dari pilihan pendapatmu di ruang digital!&lt;/p&gt;
+        &lt;/header&gt;
+        
+        &lt;div class=&quot;game-container&quot;&gt;
+            &lt;div class=&quot;progress-container&quot;&gt;
+                &lt;div class=&quot;progress-bar&quot;&gt;
+                    &lt;div class=&quot;progress-fill&quot; id=&quot;progress-fill&quot;&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;progress-text&quot; id=&quot;progress-text&quot;&gt;Pertanyaan 1 dari 5&lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Question 1 --&gt;
+            &lt;div class=&quot;question-container active&quot; id=&quot;question-1&quot;&gt;
+                &lt;div class=&quot;question-text&quot;&gt;
+                    1. Saat pemerintah mengeluarkan kebijakan yang dinilai tidak populer dan berpotensi merugikan masyarakat, sikapmu adalah:
+                &lt;/div&gt;
+                &lt;div class=&quot;options&quot;&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;A&quot;&gt;A. Saya akan melakukan riset mandiri, mengumpulkan data, dan menyusun kritik sistematis melalui platform media sosial dengan tagar yang strategis&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;B&quot;&gt;B. Saya akan menyampaikan kritik melalui meme atau konten kreatif yang mudah dipahami, tanpa konfrontasi langsung&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;C&quot;&gt;C. Saya memilih diam dan menunggu perkembangan, karena khawatir akan misinterpretasi&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;D&quot;&gt;D. Saya akan turun ke jalan dan mendokumentasikan aksi protes, lalu membagikannya secara luas di media sosial&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;navigation&quot;&gt;
+                    &lt;button disabled id=&quot;prev-btn&quot;&gt;Sebelumnya&lt;/button&gt;
+                    &lt;button id=&quot;next-btn&quot;&gt;Selanjutnya&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Question 2 --&gt;
+            &lt;div class=&quot;question-container&quot; id=&quot;question-2&quot;&gt;
+                &lt;div class=&quot;question-text&quot;&gt;
+                    2. Ketika seorang teman membagikan kutipan dari buku pemikiran kiri di media sosial, reaksimu:
+                &lt;/div&gt;
+                &lt;div class=&quot;options&quot;&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;A&quot;&gt;A. Langsung menyimpan, mempelajari, dan membagikan analisis mendalam tentang relevansi pemikiran tersebut dengan kondisi saat ini&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;B&quot;&gt;B. Menanyakan pendapat teman dekat tentang apakah konten tersebut aman untuk disebarkan&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;C&quot;&gt;C. Melaporkan konten tersebut kepada platform media sosial dengan alasan keamanan nasional&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;D&quot;&gt;D. Tidak memberikan respons sama sekali dan berpura-pura tidak melihat&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;navigation&quot;&gt;
+                    &lt;button id=&quot;prev-btn-2&quot;&gt;Sebelumnya&lt;/button&gt;
+                    &lt;button id=&quot;next-btn-2&quot;&gt;Selanjutnya&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Question 3 --&gt;
+            &lt;div class=&quot;question-container&quot; id=&quot;question-3&quot;&gt;
+                &lt;div class=&quot;question-text&quot;&gt;
+                    3. Menghadapi unggahan viral yang mengungkapkan dugaan kecurangan sistemik dalam pemilu, kamu:
+                &lt;/div&gt;
+                &lt;div class=&quot;options&quot;&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;A&quot;&gt;A. Membuat analisis data komprehensif dan membagikannya di semua platform dengan men-tag lembaga pengawas&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;B&quot;&gt;B. Menyebarkan konten tersebut ke berbagai grup dengan caption yang menarik perhatian&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;C&quot;&gt;C. Menunggu konfirmasi resmi dari institusi yang berwenang sebelum mengambil sikap&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;D&quot;&gt;D. Melaporkan akun yang membagikan konten dengan alasan mencegah keresahan sosial&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;navigation&quot;&gt;
+                    &lt;button id=&quot;prev-btn-3&quot;&gt;Sebelumnya&lt;/button&gt;
+                    &lt;button id=&quot;next-btn-3&quot;&gt;Selanjutnya&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Question 4 --&gt;
+            &lt;div class=&quot;question-container&quot; id=&quot;question-4&quot;&gt;
+                &lt;div class=&quot;question-text&quot;&gt;
+                    4. Menanggapi kenaikan harga sembako yang tidak terkendali, responsmu:
+                &lt;/div&gt;
+                &lt;div class=&quot;options&quot;&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;A&quot;&gt;A. Membuat utas panjang menuntut akuntabilitas pejabat dengan bukti dan data lapangan&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;B&quot;&gt;B. Mengungkapkan kekhawatiran melalui curhat personal di media sosial tentang dampaknya&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;C&quot;&gt;C. Percaya pemerintah sedang berusaha mencari solusi terbaik&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;D&quot;&gt;D. Mengajak boikot massal terhadap produk tertentu dan mendokumentasikan respons masyarakat&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;navigation&quot;&gt;
+                    &lt;button id=&quot;prev-btn-4&quot;&gt;Sebelumnya&lt;/button&gt;
+                    &lt;button id=&quot;next-btn-4&quot;&gt;Selanjutnya&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Question 5 --&gt;
+            &lt;div class=&quot;question-container&quot; id=&quot;question-5&quot;&gt;
+                &lt;div class=&quot;question-text&quot;&gt;
+                    5. Ketika melihat kasus pelanggaran HAM yang melibatkan aparat negara, sikapmu:
+                &lt;/div&gt;
+                &lt;div class=&quot;options&quot;&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;A&quot;&gt;A. Membuat dokumentasi lengkap dengan bukti dan menghubungkan dengan pelanggaran serupa sebelumnya&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;B&quot;&gt;B. Membagikan berita dari media independen dengan caption yang mendukung korban&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;C&quot;&gt;C. Menunggu proses hukum berjalan tanpa komentar lebih dulu&lt;/div&gt;
+                    &lt;div class=&quot;option&quot; data-value=&quot;D&quot;&gt;D. Takut untuk menyukai atau membagikan konten terkait, khawatir menjadi target pengawasan&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;navigation&quot;&gt;
+                    &lt;button id=&quot;prev-btn-5&quot;&gt;Sebelumnya&lt;/button&gt;
+                    &lt;button id=&quot;submit-btn&quot;&gt;Lihat Hasil&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;!-- Results --&gt;
+            &lt;div class=&quot;result-container&quot; id=&quot;result-container&quot;&gt;
+                &lt;h2 class=&quot;result-title&quot;&gt;Hasil Ujian Kebebasan Berekspresi&lt;/h2&gt;
+                
+                &lt;div class=&quot;personality-result&quot; id=&quot;personality-result&quot;&gt;
+                    &lt;!-- Result will be inserted here --&gt;
+                &lt;/div&gt;
+                
+                &lt;div class=&quot;percentage-bars&quot;&gt;
+                    &lt;div class=&quot;percentage-bar&quot;&gt;
+                        &lt;div class=&quot;bar-label&quot;&gt;
+                            &lt;span&gt;Akan Dipenjara&lt;/span&gt;
+                            &lt;span id=&quot;percent-A&quot;&gt;0%&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;bar-container&quot;&gt;
+                            &lt;div class=&quot;bar-fill&quot; id=&quot;bar-A&quot; style=&quot;width: 0%; background-color: #e74c3c;&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class=&quot;percentage-bar&quot;&gt;
+                        &lt;div class=&quot;bar-label&quot;&gt;
+                            &lt;span&gt;Di-Blockir Medsos&lt;/span&gt;
+                            &lt;span id=&quot;percent-B&quot;&gt;0%&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;bar-container&quot;&gt;
+                            &lt;div class=&quot;bar-fill&quot; id=&quot;bar-B&quot; style=&quot;width: 0%; background-color: #f39c12;&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class=&quot;percentage-bar&quot;&gt;
+                        &lt;div class=&quot;bar-label&quot;&gt;
+                            &lt;span&gt;Tone Deaf&lt;/span&gt;
+                            &lt;span id=&quot;percent-C&quot;&gt;0%&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;bar-container&quot;&gt;
+                            &lt;div class=&quot;bar-fill&quot; id=&quot;bar-C&quot; style=&quot;width: 0%; background-color: #3498db;&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class=&quot;percentage-bar&quot;&gt;
+                        &lt;div class=&quot;bar-label&quot;&gt;
+                            &lt;span&gt;Dicari Aparat&lt;/span&gt;
+                            &lt;span id=&quot;percent-D&quot;&gt;0%&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;bar-container&quot;&gt;
+                            &lt;div class=&quot;bar-fill&quot; id=&quot;bar-D&quot; style=&quot;width: 0%; background-color: #9b59b6;&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                
+                &lt;div class=&quot;personality-desc&quot; id=&quot;personality-desc&quot;&gt;
+                    &lt;!-- Description will be inserted here --&gt;
+                &lt;/div&gt;
+                
+                &lt;div class=&quot;actions&quot;&gt;
+                    &lt;button class=&quot;restart-btn&quot; id=&quot;restart-btn&quot;&gt;Ulangi Tes&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class=&quot;disclaimer&quot;&gt;
+            Disclaimer: Hasil ini hanya simulasi untuk edukasi kebebasan berekspresi dan tidak menggambarkan situasi sebenarnya.
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi variabel
+            const answers = {
+                '1': null,
+                '2': null,
+                '3': null,
+                '4': null,
+                '5': null
+            };
+            
+            const personalities = {
+                'A': { name: 'AKAN DIPENJARA', count: 0, color: '#e74c3c' },
+                'B': { name: 'DI-BLOCKIR MEDSOS', count: 0, color: '#f39c12' },
+                'C': { name: 'TONE DEAF', count: 0, color: '#3498db' },
+                'D': { name: 'DICARI APARAT', count: 0, color: '#9b59b6' }
+            };
+            
+            const descriptions = {
+                'A': 'Kamu adalah critical thinker yang tidak takut menyuarakan kebenaran dengan data dan analisis mendalam. Namun, keberanianmu dalam mengkritik penguasa dan membongkar data sensitif membuatmu menjadi target utama penindasan. Teruslah berhati-hati!',
+                'B': 'Kamu adalah penyampai pesan yang efektif melalui konten kreatif, tapi gaya komunikasimu yang viral-oriented sering dianggap provokatif oleh algoritma media sosial. Kontenmu berisiko dilaporkan massal oleh buzzer!',
+                'C': 'Kamu lebih memilih netral dan menunggu kepastian sebelum bersuara. Meski terhindar dari risiko langsung, sikapmu dianggap tidak peka terhadap ketidakadilan yang terjadi di sekitarmu.',
+                'D': 'Kamu adalah aktivis sejati yang tidak ragu turun ke jalan dan mendokumentasikan perlawanan. Aksi langsungmu membuatmu menjadi target operasi intelijen dan penangkapan!'
+            };
+            
+            // Elemen DOM
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const questionContainers = document.querySelectorAll('.question-container');
+            const resultContainer = document.getElementById('result-container');
+            const personalityResult = document.getElementById('personality-result');
+            const personalityDesc = document.getElementById('personality-desc');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            // Fungsi untuk memperbarui progress bar
+            function updateProgress(currentQuestion) {
+                const progress = ((currentQuestion - 1) / 5) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Pertanyaan ${currentQuestion} dari 5`;
+            }
+            
+            // Fungsi untuk menampilkan pertanyaan
+            function showQuestion(questionNumber) {
+                questionContainers.forEach(container =&gt; {
+                    container.classList.remove('active');
+                });
+                document.getElementById(`question-${questionNumber}`).classList.add('active');
+                updateProgress(questionNumber);
+            }
+            
+            // Fungsi untuk memilih opsi
+            function selectOption(questionNumber, optionElement, value) {
+                // Hapus seleksi dari opsi lain di pertanyaan yang sama
+                const options = document.querySelectorAll(`#question-${questionNumber} .option`);
+                options.forEach(option =&gt; {
+                    option.classList.remove('selected');
+                });
+                
+                // Tandai opsi yang dipilih
+                optionElement.classList.add('selected');
+                answers[questionNumber] = value;
+            }
+            
+            // Fungsi untuk menghitung hasil
+            function calculateResults() {
+                // Reset hitungan
+                Object.keys(personalities).forEach(key =&gt; {
+                    personalities[key].count = 0;
+                });
+                
+                // Hitung jawaban
+                Object.values(answers).forEach(answer =&gt; {
+                    if (answer &amp;&amp; personalities[answer]) {
+                        personalities[answer].count++;
+                    }
+                });
+                
+                // Hitung persentase
+                const totalQuestions = 5;
+                let maxPercentage = 0;
+                let dominantPersonality = '';
+                
+                Object.keys(personalities).forEach(key =&gt; {
+                    const percentage = (personalities[key].count / totalQuestions) * 100;
+                    
+                    // Update UI persentase
+                    document.getElementById(`percent-${key}`).textContent = `${percentage}%`;
+                    document.getElementById(`bar-${key}`).style.width = `${percentage}%`;
+                    
+                    // Cari kepribadian dominan
+                    if (percentage &gt; maxPercentage) {
+                        maxPercentage = percentage;
+                        dominantPersonality = key;
+                    }
+                });
+                
+                // Tampilkan hasil utama
+                personalityResult.textContent = personalities[dominantPersonality].name;
+                personalityResult.style.background = `linear-gradient(to right, ${personalities[dominantPersonality].color}, #fdbb2d)`;
+                personalityDesc.textContent = descriptions[dominantPersonality];
+                
+                // Tampilkan container hasil
+                resultContainer.style.display = 'block';
+            }
+            
+            // Event listener untuk opsi
+            document.querySelectorAll('.option').forEach(option =&gt; {
+                option.addEventListener('click', function() {
+                    const questionContainer = this.closest('.question-container');
+                    const questionNumber = questionContainer.id.split('-')[1];
+                    const value = this.getAttribute('data-value');
+                    selectOption(questionNumber, this, value);
+                });
+            });
+            
+            // Event listener untuk navigasi
+            document.getElementById('next-btn').addEventListener('click', () =&gt; showQuestion(2));
+            document.getElementById('prev-btn-2').addEventListener('click', () =&gt; showQuestion(1));
+            document.getElementById('next-btn-2').addEventListener('click', () =&gt; showQuestion(3));
+            document.getElementById('prev-btn-3').addEventListener('click', () =&gt; showQuestion(2));
+            document.getElementById('next-btn-3').addEventListener('click', () =&gt; showQuestion(4));
+            document.getElementById('prev-btn-4').addEventListener('click', () =&gt; showQuestion(3));
+            document.getElementById('next-btn-4').addEventListener('click', () =&gt; showQuestion(5));
+            document.getElementById('prev-btn-5').addEventListener('click', () =&gt; showQuestion(4));
+            
+            // Event listener untuk submit
+            document.getElementById('submit-btn').addEventListener('click', function() {
+                // Periksa apakah semua pertanyaan telah dijawab
+                const allAnswered = Object.values(answers).every(answer =&gt; answer !== null);
+                
+                if (allAnswered) {
+                    calculateResults();
+                } else {
+                    alert('Silakan jawab semua pertanyaan sebelum melihat hasil!');
+                }
+            });
+            
+            // Event listener untuk restart
+            restartBtn.addEventListener('click', function() {
+                // Reset jawaban
+                Object.keys(answers).forEach(key =&gt; {
+                    answers[key] = null;
+                });
+                
+                // Reset seleksi opsi
+                document.querySelectorAll('.option').forEach(option =&gt; {
+                    option.classList.remove('selected');
+                });
+                
+                // Reset UI hasil
+                document.querySelectorAll('.bar-fill').forEach(bar =&gt; {
+                    bar.style.width = '0%';
+                });
+                
+                document.querySelectorAll('[id^=&quot;percent-&quot;]').forEach(element =&gt; {
+                    element.textContent = '0%';
+                });
+                
+                // Sembunyikan hasil, tampilkan pertanyaan pertama
+                resultContainer.style.display = 'none';
+                showQuestion(1);
+            });
+            
+            // Inisialisasi
+            showQuestion(1);
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
