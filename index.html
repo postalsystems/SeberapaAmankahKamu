@@ -240,7 +240,7 @@
         });
 
         personalityResult.textContent = personalities[dominant].name;
-        personalityResult.style.background = personalities[dominant].color;
+        personalityResult.style.background = '{personalities[dominant].color}';
         personalityDesc.textContent = descriptions[dominant];
         resultContainer.style.display = 'block';
       }
@@ -291,6 +291,7 @@
   </script>
 </body>
 </html>
+
 
 
 
